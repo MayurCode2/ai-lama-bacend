@@ -21,7 +21,7 @@ app.use(cors());
 
 // MongoDB Connection
 try {
-  mongoose.connect(process.env.MONGODB_URI, {
+  mongoose.connect("mongodb+srv://mpmayur2251998:b5Y8s1aLmwQ4t1oy@cluster0.qcqanul.mongodb.net/upload?retryWrites=true&w=majority", {
   });
 
   console.log('Connected to MongoDB');
@@ -46,6 +46,6 @@ app.use('/config', configRoutes);
 
 // Start server
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
+app.listen(8080, () => {
   console.log(`Server is running on port ${PORT}`);
 });
