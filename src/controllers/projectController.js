@@ -144,6 +144,44 @@ const deleteEpisode = async (req, res) => {
   }
 };
 
+
+const updateEpisode = async (req, res) => {
+  const { name, description, status } = req.body;
+  const userId = req.user.id;
+  const projectId = req.params.projectId;
+  const episodeId = req.params.episodeId;
+
+  try {
+    let project = await Project.findOne({ _id: projectId, userId });
+
+    if (!project) {
+      return res.status(404).json({ message: 'Project not found' });
+    }
+
+    const episodeIndex = project.episodes.findIndex((episode) => episode._id.toString() === episodeId);
+
+    if (episodeIndex === -1) {
+      return res.status(404).json({ message: 'Episode not found' });
+    }
+
+    // Update episode data
+    project.episodes[episodeIndex] = {
+      ...project.episodes[episodeIndex],
+      name,
+      description,
+      status,
+    };
+
+    await project.save();
+
+    res.json(project.episodes[episodeIndex]);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).json({ message: 'Server Error' });
+  }
+};
+
+
 module.exports = {
   create,
   addEpisode,
@@ -152,4 +190,5 @@ module.exports = {
   getAllEpisodes,
   getAllProjects,
   deleteEpisode,
+  updateEpisode
 };

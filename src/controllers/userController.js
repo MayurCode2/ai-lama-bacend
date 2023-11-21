@@ -27,13 +27,14 @@ const register = async (req, res) => {
     const payload = {
       user: {
         id: user.id,
+        username: user.username,
       },
     };
 
     jwt.sign(
       payload,
       "your-secret-key",
-      { expiresIn: '1h' },
+      { expiresIn: '20h' },
       (err, token) => {
         if (err) {
           return res.status(500).json({ message: 'Server Error' });
@@ -77,7 +78,12 @@ const login = async (req, res) => {
         if (err) {
           return res.status(500).json({ message: 'Server Error' });
         }
-        res.json({ token });
+        res.json({ token ,
+          user: {
+            id: user.id,
+            username: user.username,
+          },
+         });
       }
     );
   } catch (err) {

@@ -25,4 +25,7 @@ router.get('/getAllProjects', authenticate, projectController.getAllProjects);
 // Delete Episode from Project
 router.delete('/deleteEpisode/:projectId/:episodeId', authenticate, projectController.deleteEpisode);
 
+// Update episode data
+router.put('/:projectId/episodes/:episodeId', authenticate, projectController.updateEpisode);
+
 module.exports = router;
